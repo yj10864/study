@@ -66,3 +66,84 @@
 - 深度级别：1（概要）/2（详细）/3（专家）
 - 关注维度：security（安全）/performance（性能）/maintainability（可维护性）
 - 图表风格：C4_model/传统UML/架构决策记录(ADR)
+
+
+
+
+
+
+Here is the structured analysis based on the provided project file:
+
+**Input Processing Stage**
+
+1. **Project Structure Analysis:**
+   - Scan code directory hierarchy to identify main module divisions (by function/level/component)
+   - Mark core business modules and technical support modules
+   - Parse configuration files (e.g., `package.json`, `pom.xml`, `Dockerfile`), extracting key dependencies and configuration parameters
+
+**Core Analysis Stage**
+
+2. **Business Logic Deconstruction:**
+
+   a) **Business Flow Diagram:**
+   - Identify business entry points (API endpoints/UI components/scheduled tasks)
+   - Draw cross-module call relationships (using -> symbol to indicate dependencies)
+   - Mark key business decision points (if/switch branch logic)
+
+   b) **Sequence Diagram Generation Specification:**
+   ```plantuml
+   !include <C4_Context> // Using C4 model extension
+   @startuml
+   title Business Sequence Diagram - {{Business Scenario Name}}
+   box "{{Client}}" #LightBlue
+   participant Frontend as FE
+   end box
+
+   box "{{Server}}" #Pink
+   participant Controller as C
+   participant Service as S
+   participant Repository as R
+   end box
+
+   FE -> C: {{HTTP Method}} /api/endpoint
+   activate C
+   C -> S: processRequest()
+   S -> R: queryData()
+   R --> S: Dataset
+   S -> S: transformData()
+   alt Data Validation
+       S -> C: errorResponse()
+   else
+       S --> C: successPayload()
+   end
+   @enduml
+   ```
+
+3. **Code Logic Abstraction:**
+   - Extract core algorithm flowcharts (in pseudocode format)
+   - Mark complexity (time/space)
+   - Identify design patterns (factory/strategy/observer, etc.)
+   - Security audit points (SQL injection risks/sensitive data handling)
+
+**Output Specification**
+
+4. **Documentation Requirements:**
+
+   a) **Architecture View:**
+   - Layered architecture diagram (presentation layer/business layer/persistence layer)
+   - Data flow diagram (request lifecycle)
+
+   b) **Business Documentation:**
+   1. **Business Goals:** Explain the business problems the module solves
+   2. **Process Nodes:**
+      - Trigger conditions
+      - Input/output specifications
+      - Exception handling strategies
+   3. **Domain Model:**
+      - Key entity relationship diagram
+      - State transition diagram (if applicable)
+
+**Configuration Parameters**
+- Depth Level: 1 (Overview)/2 (Detailed)/3 (Expert)
+- Focus Dimension: security/performance/maintainability
+- Diagram Style: C4_model/traditional UML/architecture decision records (ADR)
